@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     resources :time_entries, only: %i[create update]
   end
 
-
   get 'calendar(/:date)', to: 'calendar#show', as: :calendar
 
   root 'sessions#new'

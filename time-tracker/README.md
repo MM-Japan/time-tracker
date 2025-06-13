@@ -9,4 +9,3 @@ This Rails application is a minimal Toggl clone for tracking how long you spend 
 3. Start the server with `bin/rails server` and open `http://localhost:3000`.
 
 Sign up with your email and password, then navigate the calendar to manage your tasks and time entries.
-

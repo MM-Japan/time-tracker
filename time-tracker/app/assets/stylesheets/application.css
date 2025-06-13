@@ -32,3 +32,18 @@ th, td {
   border: 1px solid #333;
   padding: 8px;
 }
+
+
+header {
+  position: sticky;
+  top: 0;
+  background-color: #1e1e1e;
+  padding: 10px;
+  z-index: 1000;
+}
+
+#timer {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
