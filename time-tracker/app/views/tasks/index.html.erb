@@ -1,0 +1,52 @@
+<div class="max-w-3xl mx-auto mt-8">
+  <div data-controller="time-tracker" data-time-tracker-start="<%= current_running_entry&.start_time&.iso8601 %>" data-time-tracker-entry-id="<%= current_running_entry&.id %>" class="max-w-md mx-auto p-4 bg-gray-800 rounded text-white">
+  <% if current_running_entry %>
+    <h2 class="text-xl mb-2 text-center"><%= current_running_entry.task.name %></h2>
+    <select data-time-tracker-target="task" class="hidden"><option value="<%= current_running_entry.task.id %>"></option></select>
+  <% else %>
+    <select data-time-tracker-target="task" class="w-full mb-2">
+      <option value="" disabled selected>Select task</option>
+      <% @tasks.each do |task| %>
+        <option value="<%= task.id %>"><%= task.name %></option>
+      <% end %>
+    </select>
+  <% end %>
+  <div data-time-tracker-target="timer" class="text-4xl text-center my-4">00:00:00.000</div>
+  <input type="text" data-time-tracker-target="comment" placeholder="Comment" class="w-full mb-2" />
+  <button data-time-tracker-target="startBtn" class="px-4 py-2 bg-green-600 rounded w-full text-white <%= 'hidden' if current_running_entry %>" data-action="time-tracker#start"><i class="fa fa-play"></i> Start</button>
+  <button data-time-tracker-target="stopBtn" class="px-4 py-2 bg-red-600 rounded w-full <%= current_running_entry ? '' : 'hidden' %>" data-action="time-tracker#stop"><i class="fa fa-stop"></i> Stop</button>
+  </div>
+
+  <h2 class="mt-8">Tasks</h2>
+<table class="mt-2">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr>
+        <td><%= link_to task.name, calendar_path(task_id: task.id) %></td>
+        <td><%= task.description %></td>
+        <td>
+          <%= link_to edit_task_path(task), class: 'icon-button', title: 'Edit' do %>
+            <i class="fa fa-pen"></i>
+          <% end %>
+          <%= button_to task_path(task), method: :delete, form: { data: { turbo_confirm: 'Delete this task?' } }, class: 'icon-button', title: 'Delete' do %>
+            <i class="fa fa-trash"></i>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="mt-4">
+  <%= link_to 'New Task', new_task_path %> |
+  <%= link_to 'Work Hours', calendar_path %> |
+  <%= link_to 'Logout', session_path, data: { turbo_method: :delete } %>
+</div>
+</div>
