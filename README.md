@@ -8,4 +8,4 @@ This project implements a simple Toggl-like time tracker built with Ruby on Rail
 2. Initialize the database with `bin/rails db:migrate`.
 3. Start the application with `bin/rails server` and visit `http://localhost:3000`.
 
-Create tasks and use the Start/Stop buttons to log time entries.
+4. Sign up with your email and password, then use the calendar to track and comment on your hours.

@@ -15,7 +15,12 @@
         <td><%= task.description %></td>
         <td>
           <% if task.running_time_entry %>
-            <%= button_to 'Stop', task_time_entry_path(task, task.running_time_entry), method: :put %>
+
+            <%= form_with model: [task, task.running_time_entry], method: :put do |f| %>
+              <%= f.text_field :comment, placeholder: "Comment" %>
+              <%= f.submit 'Stop' %>
+            <% end %>
+
           <% else %>
             <%= button_to 'Start', task_time_entries_path(task), method: :post %>
           <% end %>
@@ -25,4 +30,7 @@
   </tbody>
 </table>
 
-<%= link_to 'New Task', new_task_path %>
+<%= link_to 'New Task', new_task_path %> |
+<%= link_to 'Calendar', calendar_path %> |
+<%= link_to 'Logout', session_path, method: :delete %>
+
