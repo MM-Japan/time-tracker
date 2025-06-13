@@ -24,10 +24,10 @@
           <td><%= entry.comment %></td>
           <td>
             <%= link_to edit_task_time_entry_path(entry.task, entry), class: 'icon-button', title: 'Edit' do %>
-              <i class="fa fa-pen"></i>
+              <i class="fa fa-pen"></i> Edit
             <% end %>
             <button data-action="modal#open" data-url="<%= task_time_entry_path(entry.task, entry) %>" class="icon-button" title="Delete">
-              <i class="fa fa-trash"></i>
+              <i class="fa fa-trash"></i> Delete
             </button>
           </td>
         </tr>
