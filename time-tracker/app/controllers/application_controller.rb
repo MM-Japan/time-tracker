@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+
   helper_method :current_user, :current_running_entry
 
   private
