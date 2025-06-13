@@ -1,0 +1,22 @@
+<div class="max-w-md mx-auto mt-10 p-6 bg-gray-800 rounded text-white">
+  <h1 class="text-2xl mb-4 text-center">New Task</h1>
+
+  <%= form_with model: @task do |form| %>
+    <div class="mb-4">
+      <%= form.label :name, class: "block mb-1" %>
+      <%= form.text_field :name, class: "w-full" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :description, class: "block mb-1" %>
+      <%= form.text_area :description, rows: 3, class: "w-full" %>
+    </div>
+
+    <%= form.submit 'Create', class: "px-4 py-2 bg-green-600 rounded w-full" %>
+  <% end %>
+
+  <div class="mt-4 text-center">
+    <%= link_to 'Back', tasks_path %> |
+    <%= link_to 'Work Hours', calendar_path %>
+  </div>
+</div>
