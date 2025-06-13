@@ -1,3 +1,4 @@
+<div data-controller="delete">
 <div class="max-w-3xl mx-auto mt-8">
   <h1 class="text-2xl mb-4">Work Hours</h1>
 
@@ -44,7 +45,7 @@
 <div
   id="delete-modal"
   class="fixed inset-0 flex items-center justify-center bg-black/60 z-50 hidden"
-  data-controller="delete"
+  data-delete-target="modal"
 >
   <div class="bg-white rounded-lg p-6 max-w-sm w-full">
     <p class="text-lg text-center mb-4">Are you sure you want to delete this entry?</p>
@@ -53,4 +54,5 @@
       <button class="bg-gray-300 px-4 py-2 rounded" data-action="click->delete#cancel">No</button>
     </div>
   </div>
+</div>
 </div>
