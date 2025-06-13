@@ -23,7 +23,7 @@
         <nav>
           <%= link_to 'Work Hours', calendar_path %> |
           <%= link_to 'Tasks', tasks_path %> |
-          <%= link_to 'Logout', session_path, method: :delete %>
+          <%= link_to 'Logout', session_path, data: { turbo_method: :delete } %>
         </nav>
       <% end %>
     </header>
