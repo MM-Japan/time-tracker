@@ -1,16 +1,22 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["form"]
+  static values = { id: Number }
 
   open(event) {
-    event.preventDefault()
-    this.formTarget.action = event.currentTarget.dataset.url
+    this.idValue = event.currentTarget.dataset.modalIdValue
     this.element.classList.remove("hidden")
   }
 
-  cancel(event) {
-    event.preventDefault()
+  close() {
     this.element.classList.add("hidden")
+  }
+
+  confirm() {
+    fetch(`/time_entries/${this.idValue}`, {
+      method: "DELETE",
+      headers: { "Accept": "text/vnd.turbo-stream.html" }
+    })
+    .then(() => this.close())
   }
 }
