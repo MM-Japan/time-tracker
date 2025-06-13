@@ -1,0 +1,19 @@
+<div class="flex items-center justify-center min-h-screen">
+  <div class="bg-gray-800 p-6 rounded w-80">
+    <h1 class="text-center text-xl mb-4">Login</h1>
+    <%= form_with url: session_path, method: :post do |f| %>
+      <div class="mb-4">
+        <%= f.label :email, class: 'block mb-1' %>
+        <%= f.email_field :email, class: 'w-full' %>
+      </div>
+      <div class="mb-4">
+        <%= f.label :password, class: 'block mb-1' %>
+        <%= f.password_field :password, class: 'w-full' %>
+      </div>
+      <%= f.submit 'Log in', class: 'w-full bg-blue-600 rounded py-2' %>
+    <% end %>
+    <p class="mt-4 text-center">
+      New user? <%= link_to 'Sign up', new_user_path, class: 'underline text-blue-400' %>
+    </p>
+  </div>
+</div>
