@@ -11,6 +11,15 @@
   </head>
 
   <body>
+    <header>
+      <% if current_user %>
+        <nav>
+          <%= link_to 'Calendar', calendar_path %> |
+          <%= link_to 'Tasks', tasks_path %> |
+          <%= link_to 'Logout', session_path, method: :delete %>
+        </nav>
+      <% end %>
+    </header>
     <%= yield %>
   </body>
 </html>
