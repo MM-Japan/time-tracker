@@ -1,19 +1,26 @@
-<h1>Edit Time Entry for <%= @task.name %></h1>
+<div class="max-w-md mx-auto mt-10 p-6 bg-gray-800 rounded text-white">
+  <h1 class="text-2xl mb-4 text-center">Edit Time Entry for <%= @task.name %></h1>
 
-<%= form_with model: [@task, @time_entry] do |f| %>
-  <p>
-    <%= f.label :start_time %><br>
-    <%= f.datetime_local_field :start_time %>
-  </p>
-  <p>
-    <%= f.label :end_time %><br>
-    <%= f.datetime_local_field :end_time %>
-  </p>
-  <p>
-    <%= f.label :comment %><br>
-    <%= f.text_field :comment %>
-  </p>
-  <%= f.submit 'Save' %>
-<% end %>
+  <%= form_with model: [@task, @time_entry] do |f| %>
+    <div class="mb-4">
+      <%= f.label :start_time, class: "block mb-1" %>
+      <%= f.datetime_local_field :start_time, class: "w-full" %>
+    </div>
 
-<%= link_to 'Back', calendar_path(task_id: @task.id) %>
+    <div class="mb-4">
+      <%= f.label :end_time, class: "block mb-1" %>
+      <%= f.datetime_local_field :end_time, class: "w-full" %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :comment, class: "block mb-1" %>
+      <%= f.text_field :comment, class: "w-full" %>
+    </div>
+
+    <%= f.submit 'Save', class: "px-4 py-2 bg-green-600 rounded w-full" %>
+  <% end %>
+
+  <div class="mt-4 text-center">
+    <%= link_to 'Back', calendar_path(task_id: @task.id) %>
+  </div>
+</div>
