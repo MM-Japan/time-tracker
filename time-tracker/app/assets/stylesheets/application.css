@@ -34,6 +34,14 @@ th, td {
 }
 
 
+
+.icon-button {
+  background: none;
+  border: none;
+  color: #eee;
+  cursor: pointer;
+  font-size: 1.2em;
+}
 header {
   position: sticky;
   top: 0;

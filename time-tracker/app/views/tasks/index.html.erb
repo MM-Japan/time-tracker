@@ -11,13 +11,15 @@
   <tbody>
     <% @tasks.each do |task| %>
       <tr>
-        <td><%= task.name %></td>
+        <td><%= link_to task.name, calendar_path(task_id: task.id) %></td>
         <td><%= task.description %></td>
         <td>
           <% if task.running_time_entry %>
-
-            <%= form_with model: [task, task.running_time_entry], method: :put do |f| %>
-              <%= f.text_field :comment, placeholder: "Comment" %>
+            <%= form_with model: [task, task.running_time_entry], method: :put, class: "inline" do |f| %>
+              <button type="submit" class="icon-button" title="Stop"><i class="fa fa-stop"></i></button>
+            <%= button_to task_time_entries_path(task), method: :post, class: "icon-button" do %>
+              <i class="fa fa-play"></i>
+            <% end %>
               <%= f.submit 'Stop' %>
             <% end %>
 

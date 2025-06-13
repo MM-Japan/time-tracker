@@ -7,12 +7,24 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-8e3bGLvYJ+jYw2HVpDz3GpHPuZ7wJkw7DnqKZ59K1trENcGukdxbYlR5c+3F4iAfDdc/K1Ji/7luWUvKBC6zfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
     <header>
       <% if current_user %>
+        <div>
+          <% if current_running_entry %>
+            <%= form_with model: [current_running_entry.task, current_running_entry], method: :put, class: "inline" do |f| %>
+              <button type="submit" class="icon-button" title="Stop"><i class="fa fa-stop"></i></button>
+            <% end %>
+          <% else %>
+            <%= link_to tasks_path, title: "Start tracking" do %>
+              <i class="fa fa-play"></i>
+            <% end %>
+          <% end %>
+        </div>
 
         <div id="timer" data-controller="timer" data-timer-start="<%= current_running_entry&.start_time&.iso8601 %>">00:00:00.000</div>
 
