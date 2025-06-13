@@ -13,9 +13,8 @@ export default class extends Controller {
   }
 
   confirm() {
-    fetch(`/time_entries/${this.idValue}`, {
-      method: "DELETE",
-      headers: { "Accept": "text/vnd.turbo-stream.html" }
+    fetch(`/tasks/${this.idValue}`, {
+      method: "DELETE"
     })
     .then(() => this.close())
   }
