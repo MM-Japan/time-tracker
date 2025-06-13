@@ -29,7 +29,10 @@ class TimeEntriesController < ApplicationController
     @time_entry = @task.time_entries.find(params[:id])
     if params[:time_entry] && params[:time_entry].key?(:start_time)
       if @time_entry.update(time_entry_params)
-        redirect_to calendar_path(date: @time_entry.start_time.to_date, task_id: @task.id)
+        respond_to do |format|
+          format.html { redirect_to calendar_path(date: @time_entry.start_time.to_date, task_id: @task.id) }
+          format.json { head :no_content }
+        end
       else
         render :edit
       end

@@ -1,7 +1,7 @@
 <div class="max-w-md mx-auto mt-10 p-6 bg-gray-800 rounded text-white">
   <h1 class="text-2xl mb-4 text-center">Edit Time Entry for <%= @task.name %></h1>
 
-  <%= form_with model: [@task, @time_entry] do |f| %>
+  <%= form_with model: [@task, @time_entry], local: true do |f| %>
     <div class="mb-4">
       <%= f.label :start_time, class: "block mb-1" %>
       <%= f.datetime_local_field :start_time, class: "w-full" %>
