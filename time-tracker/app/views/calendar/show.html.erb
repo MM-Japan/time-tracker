@@ -1,3 +1,4 @@
+<div class="max-w-3xl mx-auto mt-8">
 <h1>Calendar</h1>
 <p>
   <%= link_to "Prev", calendar_path(date: (@date - 1.day).to_s) %> |
@@ -44,6 +45,7 @@
         <% entry = task.running_time_entry %>
         <tr>
           <td><%= task.name %></td>
+</div>
 
           <td><%= entry.start_time.strftime('%H:%M') %></td>
           <td></td>

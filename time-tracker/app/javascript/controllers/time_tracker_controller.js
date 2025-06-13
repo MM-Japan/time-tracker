@@ -21,6 +21,7 @@ export default class extends Controller {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
         'X-CSRF-Token': this.token()
       }
     }).then(r => r.json()).then(data => {
@@ -54,10 +55,14 @@ export default class extends Controller {
     this.stopTicker()
     this.updateTimer()
     this.interval = setInterval(() => this.updateTimer(), 100)
+    const header = document.getElementById('timer')
+    if (header) header.dataset.start = this.startTime.toISOString()
   }
 
   stopTicker() {
     if (this.interval) clearInterval(this.interval)
+    const header = document.getElementById('timer')
+    if (header) header.dataset.start = ''
   }
 
   updateTimer() {
