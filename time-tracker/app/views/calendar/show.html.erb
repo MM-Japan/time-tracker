@@ -13,7 +13,11 @@
   <thead>
     <tr>
       <th>Task</th>
-      <th>Duration (seconds)</th>
+
+      <th>Start</th>
+      <th>End</th>
+      <th>Duration (s)</th>
+
       <th>Comment</th>
       <th>Actions</th>
     </tr>
@@ -24,20 +28,31 @@
       <% entries.each do |entry| %>
         <tr>
           <td><%= task.name %></td>
+
+          <td><%= entry.start_time.strftime('%H:%M') %></td>
+          <td><%= entry.end_time&.strftime('%H:%M') %></td>
           <td><%= entry.duration %></td>
           <td><%= entry.comment %></td>
-          <td></td>
+          <td>
+            <%= link_to edit_task_time_entry_path(task, entry), class: 'icon-button', title: 'Edit' do %><i class="fa fa-pen"></i><% end %>
+            <%= button_to task_time_entries_path(task, entry), method: :delete, class: 'icon-button', form: { data: { turbo_confirm: 'Are you sure?' } } do %><i class="fa fa-trash"></i><% end %>
+          </td>
+
         </tr>
       <% end %>
       <% if task.running_time_entry %>
         <% entry = task.running_time_entry %>
         <tr>
           <td><%= task.name %></td>
+
+          <td><%= entry.start_time.strftime('%H:%M') %></td>
+          <td></td>
           <td><%= entry.duration %></td>
           <td>
-            <%= form_with model: [task, entry], method: :put do |f| %>
+            <%= form_with model: [task, entry], method: :put, class: 'inline' do |f| %>
               <%= f.text_field :comment, placeholder: "Comment" %>
-              <%= f.submit 'Stop' %>
+              <button type="submit" class="icon-button" title="Stop"><i class="fa fa-stop"></i></button>
+
             <% end %>
           </td>
           <td></td>
@@ -47,7 +62,14 @@
           <td><%= task.name %></td>
           <td></td>
           <td></td>
-          <td><%= button_to 'Start', task_time_entries_path(task), method: :post %></td>
+
+          <td></td>
+          <td></td>
+          <td><%= button_to task_time_entries_path(task), method: :post, class: 'icon-button' do %><i class="fa fa-play"></i><% end %></td>
+        </tr>
+        <tr>
+          <td colspan="6"><%= link_to 'New Entry', new_task_time_entry_path(task), class: 'icon-button' %></td>
+
         </tr>
       <% end %>
     <% end %>
