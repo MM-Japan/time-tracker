@@ -1,0 +1,28 @@
+<h1>Tasks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr>
+        <td><%= task.name %></td>
+        <td><%= task.description %></td>
+        <td>
+          <% if task.running_time_entry %>
+            <%= button_to 'Stop', task_time_entry_path(task, task.running_time_entry), method: :put %>
+          <% else %>
+            <%= button_to 'Start', task_time_entries_path(task), method: :post %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Task', new_task_path %>
