@@ -1,0 +1,56 @@
+<h1>Calendar</h1>
+<p>
+  <%= link_to "Prev", calendar_path(date: (@date - 1.day).to_s) %> |
+  <%= link_to "Next", calendar_path(date: (@date + 1.day).to_s) %>
+</p>
+<h2><%= @date.strftime('%B %d, %Y') %></h2>
+<% total_seconds = 0 %>
+<% @tasks.each do |task| %>
+  <% total_seconds += task.time_entries.where(start_time: @date.beginning_of_day..@date.end_of_day).map(&:duration).sum %>
+<% end %>
+<p>Total: <%= Time.at(total_seconds).utc.strftime('%H:%M:%S') %></p>
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Duration (seconds)</th>
+      <th>Comment</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tasks.each do |task| %>
+      <% entries = task.time_entries.where(start_time: @date.beginning_of_day..@date.end_of_day) %>
+      <% entries.each do |entry| %>
+        <tr>
+          <td><%= task.name %></td>
+          <td><%= entry.duration %></td>
+          <td><%= entry.comment %></td>
+          <td></td>
+        </tr>
+      <% end %>
+      <% if task.running_time_entry %>
+        <% entry = task.running_time_entry %>
+        <tr>
+          <td><%= task.name %></td>
+          <td><%= entry.duration %></td>
+          <td>
+            <%= form_with model: [task, entry], method: :put do |f| %>
+              <%= f.text_field :comment, placeholder: "Comment" %>
+              <%= f.submit 'Stop' %>
+            <% end %>
+          </td>
+          <td></td>
+        </tr>
+      <% else %>
+        <tr>
+          <td><%= task.name %></td>
+          <td></td>
+          <td></td>
+          <td><%= button_to 'Start', task_time_entries_path(task), method: :post %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+<p><%= link_to 'Tasks', tasks_path %> | <%= link_to 'Logout', session_path, method: :delete %></p>
