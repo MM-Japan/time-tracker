@@ -17,14 +17,18 @@
       <% @time_entries.each do |entry| %>
         <tr>
           <td><%= entry.task.name %></td>
-          <td><%= entry.start_time.strftime('%A, %B %-d') %></td>
-          <td><%= entry.start_time.strftime('%H:%M') %></td>
-          <td><%= entry.end_time&.strftime('%H:%M') %></td>
+          <td><%= entry.start_time.in_time_zone('Asia/Tokyo').strftime('%A, %B %-d') %></td>
+          <td><%= entry.start_time.in_time_zone('Asia/Tokyo').strftime('%H:%M') %></td>
+          <td><%= entry.end_time&.in_time_zone('Asia/Tokyo')&.strftime('%H:%M') %></td>
           <td><%= Time.at(entry.duration).utc.strftime('%H:%M:%S') %></td>
           <td><%= entry.comment %></td>
           <td>
-            <%= link_to edit_task_time_entry_path(entry.task, entry), class: 'icon-button', title: 'Edit' do %><i class="fa fa-pen"></i><% end %>
-            <%= button_to task_time_entries_path(entry.task, entry), method: :delete, class: 'icon-button', form: { data: { turbo_confirm: 'Are you sure?' } } do %><i class="fa fa-trash"></i><% end %>
+            <%= link_to edit_task_time_entry_path(entry.task, entry), class: 'icon-button', title: 'Edit' do %>
+              <i class="fa fa-pen"></i>
+            <% end %>
+            <button data-action="modal#open" data-url="<%= task_time_entry_path(entry.task, entry) %>" class="icon-button" title="Delete">
+              <i class="fa fa-trash"></i>
+            </button>
           </td>
         </tr>
       <% end %>
@@ -33,4 +37,4 @@
 
   <p><%= link_to 'Tasks', tasks_path %> | <%= link_to 'Logout', session_path, data: { turbo_method: :delete } %></p>
 </div>
-
+<%= render 'shared/delete_modal' %>

@@ -2,8 +2,6 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["task", "timer", "comment", "startBtn", "stopBtn"]
-
-
   connect() {
     this.timeEntryId = this.data.get("entryId")
     this.startTime = this.data.get("start") ? new Date(this.data.get("start")) : null
