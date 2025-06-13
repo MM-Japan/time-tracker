@@ -19,7 +19,8 @@
   </div>
 
   <h2 class="mt-8">Tasks</h2>
-<table class="mt-2">
+  <div class="overflow-x-auto">
+<table class="mt-2 min-w-max">
   <thead>
     <tr>
       <th>Name</th>
@@ -44,6 +45,7 @@
     <% end %>
   </tbody>
 </table>
+  </div>
 
 <%= render 'shared/delete_modal' %>
 
