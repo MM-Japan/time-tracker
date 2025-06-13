@@ -15,8 +15,16 @@ export default class extends Controller {
 
   confirm() {
     fetch(`/tasks/${this.idValue}`, {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        'X-CSRF-Token': this.token(),
+        'Accept': 'text/html'
+      }
     })
-    .then(() => this.close())
+    .then(() => window.location.reload())
+  }
+
+  token() {
+    return document.querySelector('meta[name="csrf-token"]').content
   }
 }
