@@ -1,7 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["task", "timer", "comment"]
+  static targets = ["task", "timer", "comment", "startBtn", "stopBtn"]
+
 
   connect() {
     this.timeEntryId = this.data.get("entryId")
@@ -14,6 +15,8 @@ export default class extends Controller {
         header.dataset.taskId = this.taskTarget.value || header.dataset.taskId
       }
       this.startTicker(this.taskTarget.value)
+    } else {
+      this.showStart()
     }
   }
 
@@ -27,6 +30,7 @@ export default class extends Controller {
     if (!taskId) return
     this.startTime = new Date()
     this.startTicker(taskId)
+    this.showStop()
     fetch(`/tasks/${taskId}/time_entries`, {
       method: 'POST',
       headers: {
@@ -61,6 +65,7 @@ export default class extends Controller {
       this.commentTarget.value = ''
       this.startTime = null
       this.updateTimer()
+      this.showStart()
     })
   }
 
@@ -76,6 +81,7 @@ export default class extends Controller {
       header.dataset.taskId = taskId
       header.dispatchEvent(new Event('timer-start'))
     }
+    this.showStop()
   }
 
   stopTicker() {
@@ -88,6 +94,17 @@ export default class extends Controller {
       header.dataset.entryId = ''
       header.dispatchEvent(new Event('timer-stop'))
     }
+    this.showStart()
+  }
+
+  showStart() {
+    if (this.hasStopBtnTarget) this.stopBtnTarget.classList.add('hidden')
+    if (this.hasStartBtnTarget) this.startBtnTarget.classList.remove('hidden')
+  }
+
+  showStop() {
+    if (this.hasStartBtnTarget) this.startBtnTarget.classList.add('hidden')
+    if (this.hasStopBtnTarget) this.stopBtnTarget.classList.remove('hidden')
   }
 
   updateTimer() {

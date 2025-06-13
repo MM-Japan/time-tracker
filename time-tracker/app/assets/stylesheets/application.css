@@ -54,7 +54,6 @@ header {
   font-size: 1.2em;
 }
 
-
 .hidden {
   display: none;
 }
@@ -75,4 +74,3 @@ input::placeholder,
 textarea::placeholder {
   color: #bbb;
 }
-
