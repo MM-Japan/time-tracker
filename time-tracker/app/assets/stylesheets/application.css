@@ -33,6 +33,7 @@ th, td {
   padding: 8px;
 }
 
+
 header {
   position: sticky;
   top: 0;
@@ -45,6 +46,7 @@ header {
   font-size: 1.2em;
   margin-bottom: 5px;
 }
+
 
 .icon-button {
   background: none;

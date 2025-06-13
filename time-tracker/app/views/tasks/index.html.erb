@@ -1,3 +1,4 @@
+
 <div data-controller="time-tracker" data-time-tracker-start="<%= current_running_entry&.start_time&.iso8601 %>" data-time-tracker-entry-id="<%= current_running_entry&.id %>" class="max-w-md mx-auto mt-8 p-4 bg-gray-800 rounded text-white">
   <% if current_running_entry %>
     <h2 class="text-xl mb-2 text-center"><%= current_running_entry.task.name %></h2>
@@ -21,24 +22,30 @@
 
 <h2 class="mt-8">Tasks</h2>
 <table class="mt-2">
+
   <thead>
     <tr>
       <th>Name</th>
       <th>Description</th>
+
     </tr>
   </thead>
   <tbody>
     <% @tasks.each do |task| %>
       <tr>
+
         <td><%= link_to task.name, calendar_path(task_id: task.id) %></td>
         <td><%= task.description %></td>
+
       </tr>
     <% end %>
   </tbody>
 </table>
+
 
 <div class="mt-4">
   <%= link_to 'New Task', new_task_path %> |
   <%= link_to 'Calendar', calendar_path %> |
   <%= link_to 'Logout', session_path, method: :delete %>
 </div>
+

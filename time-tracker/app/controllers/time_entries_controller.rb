@@ -1,4 +1,5 @@
 class TimeEntriesController < ApplicationController
+
   before_action :require_login
   before_action :set_task
 
@@ -23,10 +24,12 @@ class TimeEntriesController < ApplicationController
     else
       render :new
     end
+
   end
 
   def update
     @time_entry = @task.time_entries.find(params[:id])
+
     if params[:time_entry] && params[:time_entry].key?(:start_time)
       if @time_entry.update(time_entry_params)
         redirect_to calendar_path(date: @time_entry.start_time.to_date, task_id: @task.id)
@@ -47,15 +50,18 @@ class TimeEntriesController < ApplicationController
     date = @time_entry.start_time.to_date
     @time_entry.destroy
     redirect_to calendar_path(date: date, task_id: @task.id)
+
   end
 
   private
 
   def set_task
+
     @task = current_user.tasks.find(params[:task_id])
   end
 
   def time_entry_params
     params.fetch(:time_entry, {}).permit(:start_time, :end_time, :comment)
+
   end
 end
