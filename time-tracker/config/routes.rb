@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     resources :time_entries, except: %i[show]
   end
 
+  resources :time_entries, only: %i[destroy]
+
   get 'calendar(/:date)', to: 'calendar#show', as: :calendar
 
   root 'sessions#new'

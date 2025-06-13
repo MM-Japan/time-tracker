@@ -15,7 +15,7 @@
     </thead>
     <tbody>
       <% @time_entries.each do |entry| %>
-        <tr>
+        <tr id="time_entry_<%= entry.id %>">
           <td><%= entry.task.name %></td>
           <td><%= entry.start_time.in_time_zone('Asia/Tokyo').strftime('%A, %B %-d') %></td>
           <td><%= entry.start_time.in_time_zone('Asia/Tokyo').strftime('%H:%M') %></td>
@@ -27,8 +27,8 @@
               <i class="fa fa-pen"></i> Edit
             <% end %>
             <button
-              data-action="click->modal#open"
-              data-modal-id-value="<%= entry.id %>"
+              data-action="click->delete#confirm"
+              data-delete-id-value="<%= entry.id %>"
               class="text-red-600 hover:underline"
             >
               Delete
@@ -41,4 +41,16 @@
 
   <p><%= link_to 'Tasks', tasks_path %> | <%= link_to 'Logout', session_path, data: { turbo_method: :delete } %></p>
 </div>
-<%= render 'shared/delete_modal' %>
+<div
+  id="delete-modal"
+  class="fixed inset-0 flex items-center justify-center bg-black/60 z-50 hidden"
+  data-controller="delete"
+>
+  <div class="bg-white rounded-lg p-6 max-w-sm w-full">
+    <p class="text-lg text-center mb-4">Are you sure you want to delete this entry?</p>
+    <div class="flex justify-around">
+      <button class="bg-red-600 text-white px-4 py-2 rounded" data-action="click->delete#submit">Yes</button>
+      <button class="bg-gray-300 px-4 py-2 rounded" data-action="click->delete#cancel">No</button>
+    </div>
+  </div>
+</div>
