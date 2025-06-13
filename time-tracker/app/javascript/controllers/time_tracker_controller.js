@@ -6,7 +6,15 @@ export default class extends Controller {
   connect() {
     this.timeEntryId = this.data.get("entryId")
     this.startTime = this.data.get("start") ? new Date(this.data.get("start")) : null
-    if (this.startTime) this.startTicker()
+    if (this.startTime) {
+      const header = document.getElementById('header-controls')
+      if (header) {
+        header.dataset.start = this.startTime.toISOString()
+        header.dataset.entryId = this.timeEntryId
+        header.dataset.taskId = this.taskTarget.value || header.dataset.taskId
+      }
+      this.startTicker(this.taskTarget.value)
+    }
   }
 
   disconnect() {
@@ -17,16 +25,22 @@ export default class extends Controller {
     event.preventDefault()
     const taskId = this.taskTarget.value
     if (!taskId) return
+    this.startTime = new Date()
+    this.startTicker(taskId)
     fetch(`/tasks/${taskId}/time_entries`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
         'X-CSRF-Token': this.token()
       }
     }).then(r => r.json()).then(data => {
       this.timeEntryId = data.id
-      this.startTime = new Date(data.start_time)
-      this.startTicker()
+      const header = document.getElementById('header-controls')
+      if (header) {
+        header.dataset.entryId = data.id
+        header.dataset.taskId = taskId
+      }
     })
   }
 
@@ -50,26 +64,43 @@ export default class extends Controller {
     })
   }
 
-  startTicker() {
+  startTicker(taskId) {
     this.stopTicker()
     this.updateTimer()
-    this.interval = setInterval(() => this.updateTimer(), 100)
+    this.interval = setInterval(() => this.updateTimer(), 10)
+    const timerEl = document.getElementById('timer')
+    if (timerEl) timerEl.dataset.start = this.startTime.toISOString()
+    const header = document.getElementById('header-controls')
+    if (header) {
+      header.dataset.start = this.startTime.toISOString()
+      header.dataset.taskId = taskId
+      header.dispatchEvent(new Event('timer-start'))
+    }
   }
 
   stopTicker() {
     if (this.interval) clearInterval(this.interval)
+    const timerEl = document.getElementById('timer')
+    if (timerEl) timerEl.dataset.start = ''
+    const header = document.getElementById('header-controls')
+    if (header) {
+      header.dataset.start = ''
+      header.dataset.entryId = ''
+      header.dispatchEvent(new Event('timer-stop'))
+    }
   }
 
   updateTimer() {
     if (!this.startTime) {
-      this.timerTarget.textContent = "00:00:00"
+      this.timerTarget.textContent = "00:00:00.000"
       return
     }
     const diff = Date.now() - this.startTime.getTime()
     const hours = Math.floor(diff / 3600000)
     const minutes = Math.floor((diff % 3600000) / 60000)
     const seconds = Math.floor((diff % 60000) / 1000)
-    this.timerTarget.textContent = `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}`
+    const ms = diff % 1000
+    this.timerTarget.textContent = `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}.${String(ms).padStart(3,'0')}`
   }
 
   pad(num) {

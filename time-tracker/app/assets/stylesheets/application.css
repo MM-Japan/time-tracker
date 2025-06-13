@@ -33,7 +33,6 @@ th, td {
   padding: 8px;
 }
 
-
 header {
   position: sticky;
   top: 0;
@@ -47,7 +46,6 @@ header {
   margin-bottom: 5px;
 }
 
-
 .icon-button {
   background: none;
   border: none;
@@ -55,3 +53,26 @@ header {
   cursor: pointer;
   font-size: 1.2em;
 }
+
+
+.hidden {
+  display: none;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select,
+textarea {
+  background-color: #2e2e2e;
+  color: #eee;
+  padding: 6px;
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #bbb;
+}
+
