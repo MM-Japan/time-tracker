@@ -1,24 +1,11 @@
-# README
+# Time Tracker
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This Rails application is a minimal Toggl clone for tracking how long you spend on different tasks.
 
-Things you may want to cover:
+## Getting started
 
-* Ruby version
+1. Ensure Ruby 3.1.2 is available and run `bundle install`.
+2. Execute `bin/rails db:migrate` to set up the database.
+3. Start the server with `bin/rails server` and open `http://localhost:3000`.
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Sign up with your email and password. After logging in you'll land on the tasks page which includes a timer card. Select a task and click **Start** to begin tracking time. Click **Stop** to save the entry. The running timer also appears in a sticky header with start/stop buttons. Review past entries on the calendar page.

@@ -1,0 +1,72 @@
+<div class="max-w-3xl mx-auto mt-8">
+<h1>Calendar</h1>
+<p>
+  <%= link_to "Prev", calendar_path(date: (@date - 1.day).to_s) %> |
+  <%= link_to "Next", calendar_path(date: (@date + 1.day).to_s) %>
+</p>
+<h2><%= @date.strftime('%B %d, %Y') %></h2>
+<% total_seconds = 0 %>
+<% @tasks.each do |task| %>
+  <% total_seconds += task.time_entries.where(start_time: @date.beginning_of_day..@date.end_of_day).map(&:duration).sum %>
+<% end %>
+<p>Total: <%= Time.at(total_seconds).utc.strftime('%H:%M:%S') %></p>
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Duration (s)</th>
+      <th>Comment</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tasks.each do |task| %>
+      <% entries = task.time_entries.where(start_time: @date.beginning_of_day..@date.end_of_day) %>
+      <% entries.each do |entry| %>
+        <tr>
+          <td><%= task.name %></td>
+          <td><%= entry.start_time.strftime('%H:%M') %></td>
+          <td><%= entry.end_time&.strftime('%H:%M') %></td>
+          <td><%= entry.duration %></td>
+          <td><%= entry.comment %></td>
+          <td>
+            <%= link_to edit_task_time_entry_path(task, entry), class: 'icon-button', title: 'Edit' do %><i class="fa fa-pen"></i><% end %>
+            <%= button_to task_time_entries_path(task, entry), method: :delete, class: 'icon-button', form: { data: { turbo_confirm: 'Are you sure?' } } do %><i class="fa fa-trash"></i><% end %>
+          </td>
+        </tr>
+      <% end %>
+      <% if task.running_time_entry %>
+        <% entry = task.running_time_entry %>
+        <tr>
+          <td><%= task.name %></td>
+          <td><%= entry.start_time.strftime('%H:%M') %></td>
+          <td></td>
+          <td><%= entry.duration %></td>
+          <td>
+            <%= form_with model: [task, entry], method: :put, class: 'inline' do |f| %>
+              <%= f.text_field :comment, placeholder: "Comment" %>
+              <button type="submit" class="icon-button" title="Stop"><i class="fa fa-stop"></i></button>
+            <% end %>
+          </td>
+          <td></td>
+        </tr>
+      <% else %>
+        <tr>
+          <td><%= task.name %></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><%= button_to task_time_entries_path(task), method: :post, class: 'icon-button' do %><i class="fa fa-play"></i><% end %></td>
+        </tr>
+        <tr>
+          <td colspan="6"><%= link_to 'New Entry', new_task_time_entry_path(task), class: 'icon-button' %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+<p><%= link_to 'Tasks', tasks_path %> | <%= link_to 'Logout', session_path, method: :delete %></p>
+</div>
