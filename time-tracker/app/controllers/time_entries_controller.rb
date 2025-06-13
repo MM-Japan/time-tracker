@@ -1,6 +1,7 @@
 class TimeEntriesController < ApplicationController
   before_action :require_login
-  before_action :set_task
+  before_action :set_task, except: :destroy
+  before_action :set_task_for_destroy, only: :destroy
 
   def new
     @time_entry = @task.time_entries.build
@@ -43,16 +44,23 @@ class TimeEntriesController < ApplicationController
   end
 
   def destroy
-    @time_entry = @task.time_entries.find(params[:id])
     date = @time_entry.start_time.to_date
     @time_entry.destroy
-    redirect_to calendar_path(date: date, task_id: @task.id)
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to calendar_path(date: date, task_id: @task.id) }
+    end
   end
 
   private
 
   def set_task
     @task = current_user.tasks.find(params[:task_id])
+  end
+
+  def set_task_for_destroy
+    @time_entry = current_user.time_entries.find(params[:id])
+    @task = @time_entry.task
   end
 
   def time_entry_params
