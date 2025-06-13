@@ -7,10 +7,26 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-8e3bGLvYJ+jYw2HVpDz3GpHPuZ7wJkw7DnqKZ59K1trENcGukdxbYlR5c+3F4iAfDdc/K1Ji/7luWUvKBC6zfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
+    <header class="flex items-center justify-between">
+      <% if current_user %>
+        <div class="flex items-center space-x-2" id="header-controls" data-controller="header-timer" data-task-id="<%= current_running_entry&.task_id %>" data-entry-id="<%= current_running_entry&.id %>" data-start="<%= current_running_entry&.start_time&.iso8601 %>">
+          <div id="timer" data-controller="timer" data-start="<%= current_running_entry&.start_time&.iso8601 %>">00:00:00.000</div>
+          <button data-header-timer-target="startBtn" data-action="header-timer#start" class="icon-button" title="Start"><i class="fa fa-play"></i></button>
+          <button data-header-timer-target="stopBtn" data-action="header-timer#stop" class="icon-button" title="Stop"><i class="fa fa-stop"></i></button>
+        </div>
+        <nav>
+          <%= link_to 'Work Hours', calendar_path %> |
+          <%= link_to 'Tasks', tasks_path %> |
+          <%= link_to 'Logout', session_path, method: :delete %>
+        </nav>
+      <% end %>
+    </header>
     <%= yield %>
   </body>
 </html>
