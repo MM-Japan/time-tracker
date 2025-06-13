@@ -1,3 +1,4 @@
+<div data-controller="modal">
 <div class="max-w-3xl mx-auto mt-8">
   <div data-controller="time-tracker" data-time-tracker-start="<%= current_running_entry&.start_time&.iso8601 %>" data-time-tracker-entry-id="<%= current_running_entry&.id %>" class="max-w-md mx-auto p-4 bg-gray-800 rounded text-white">
   <% if current_running_entry %>
@@ -50,5 +51,6 @@
   <%= link_to 'New Task', new_task_path %> |
   <%= link_to 'Work Hours', calendar_path %> |
   <%= link_to 'Logout', session_path, data: { turbo_method: :delete } %>
+</div>
 </div>
 </div>

@@ -2,14 +2,15 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static values = { id: Number }
+  static targets = ["modal"]
 
   confirm(event) {
     this.idValue = event.currentTarget.dataset.deleteIdValue
-    this.element.classList.remove("hidden")
+    this.modalTarget.classList.remove("hidden")
   }
 
   cancel() {
-    this.element.classList.add("hidden")
+    this.modalTarget.classList.add("hidden")
   }
 
   submit() {
