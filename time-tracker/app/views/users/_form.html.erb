@@ -16,7 +16,7 @@
     <%= f.select :time_zone,
                  ActiveSupport::TimeZone.all.map { |tz| [tz.name, tz.name] },
                  {},
-                 class: 'w-full' %>
+                 { class: 'w-full', data: { controller: 'timezone' } } %>
   </div>
   <%= f.submit user.persisted? ? 'Update' : 'Sign up',
                class: 'w-full bg-blue-600 text-white rounded py-2' %>
