@@ -5,6 +5,10 @@ class TimeEntry < ApplicationRecord
   validates :start_time, presence: true
   validate :end_time_after_start_time
 
+  def duration
+    ((end_time || Time.current) - start_time).to_i
+  end
+
   private
 
   def end_time_after_start_time
@@ -15,7 +19,4 @@ class TimeEntry < ApplicationRecord
     end
   end
 
-  def duration
-    ((end_time || Time.current) - start_time).to_i
-  end
 end
