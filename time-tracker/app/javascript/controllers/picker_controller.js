@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { csrfToken } from "../csrf"
 
 export default class extends Controller {
   static targets = ["task"]
@@ -11,7 +12,7 @@ export default class extends Controller {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'X-CSRF-Token': this.token()
+        'X-CSRF-Token': csrfToken()
       }
     })
       .then(r => r.json())
@@ -29,7 +30,4 @@ export default class extends Controller {
       })
   }
 
-  token() {
-    return document.querySelector('meta[name="csrf-token"]').content
-  }
 }

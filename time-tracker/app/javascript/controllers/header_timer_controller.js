@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { csrfToken } from "../csrf"
 
 export default class extends Controller {
   static targets = ["startBtn", "stopBtn"]
@@ -22,7 +23,7 @@ export default class extends Controller {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'X-CSRF-Token': this.token()
+        'X-CSRF-Token': csrfToken()
       }
     }).then(r => r.json()).then(data => {
       this.data.set("entryId", data.id)
@@ -41,7 +42,7 @@ export default class extends Controller {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': this.token()
+        'X-CSRF-Token': csrfToken()
       },
       body: JSON.stringify({ time_entry: { comment: '' } })
     }).then(() => {
@@ -70,7 +71,4 @@ export default class extends Controller {
     if (this.hasStartBtnTarget) this.startBtnTarget.classList.remove('hidden')
   }
 
-  token() {
-    return document.querySelector('meta[name="csrf-token"]').content
-  }
 }

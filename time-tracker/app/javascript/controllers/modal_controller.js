@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { csrfToken } from "../csrf"
 
 export default class extends Controller {
   static values = { id: Number }
@@ -17,14 +18,11 @@ export default class extends Controller {
     fetch(`/tasks/${this.idValue}`, {
       method: "DELETE",
       headers: {
-        'X-CSRF-Token': this.token(),
+        'X-CSRF-Token': csrfToken(),
         'Accept': 'text/html'
       }
     })
     .then(() => window.location.reload())
   }
 
-  token() {
-    return document.querySelector('meta[name="csrf-token"]').content
-  }
 }
