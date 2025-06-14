@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { csrfToken } from "../csrf"
+import { showToast } from "../toast"
 
 export default class extends Controller {
   static targets = ["startBtn", "stopBtn"]
@@ -50,6 +51,7 @@ export default class extends Controller {
       if (timer) timer.dataset.start = ''
       this.data.delete("entryId")
       this.showStart()
+      showToast("Hours logged")
     })
   }
 
