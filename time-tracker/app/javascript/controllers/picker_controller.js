@@ -4,6 +4,10 @@ import { csrfToken } from "../csrf"
 export default class extends Controller {
   static targets = ["task"]
 
+  cancel() {
+    this.element.classList.add('hidden')
+  }
+
   confirm() {
     const taskId = this.taskTarget.value
     if (!taskId) return
