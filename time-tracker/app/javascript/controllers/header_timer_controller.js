@@ -13,7 +13,7 @@ export default class extends Controller {
 
   start(event) {
     event.preventDefault()
-    const taskId = this.data.get("taskId")
+    const taskId = this.element.dataset.taskId
     if (!taskId) {
       const modal = document.getElementById('task-picker')
       if (modal) modal.classList.remove('hidden')
@@ -27,7 +27,7 @@ export default class extends Controller {
         'X-CSRF-Token': csrfToken()
       }
     }).then(r => r.json()).then(data => {
-      this.data.set("entryId", data.id)
+      this.element.dataset.entryId = data.id
       const timer = document.getElementById('timer')
       if (timer) timer.dataset.start = data.start_time
       this.showStop()
@@ -36,8 +36,8 @@ export default class extends Controller {
 
   stop(event) {
     event.preventDefault()
-    const taskId = this.data.get("taskId")
-    const entryId = this.data.get("entryId")
+    const taskId = this.element.dataset.taskId
+    const entryId = this.element.dataset.entryId
     if (!taskId || !entryId) return
     fetch(`/tasks/${taskId}/time_entries/${entryId}`, {
       method: 'PUT',
@@ -49,14 +49,14 @@ export default class extends Controller {
     }).then(() => {
       const timer = document.getElementById('timer')
       if (timer) timer.dataset.start = ''
-      this.data.delete("entryId")
+      delete this.element.dataset.entryId
       this.showStart()
       showToast("Hours logged")
     })
   }
 
   updateButtons() {
-    if (this.data.get("entryId")) {
+    if (this.element.dataset.entryId) {
       this.showStop()
     } else {
       this.showStart()
