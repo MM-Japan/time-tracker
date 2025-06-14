@@ -18,10 +18,22 @@ export default class extends Controller {
     } else {
       this.showStart()
     }
+
+    this.header = document.getElementById('header-controls')
+    if (this.header) {
+      this.headerStartListener = () => this.externalStart()
+      this.headerStopListener = () => this.externalStop()
+      this.header.addEventListener('timer-start', this.headerStartListener)
+      this.header.addEventListener('timer-stop', this.headerStopListener)
+    }
   }
 
   disconnect() {
     this.stopTicker()
+    if (this.header) {
+      this.header.removeEventListener('timer-start', this.headerStartListener)
+      this.header.removeEventListener('timer-stop', this.headerStopListener)
+    }
   }
 
   start(event) {
@@ -73,30 +85,54 @@ export default class extends Controller {
     })
   }
 
-  startTicker(taskId) {
-    this.stopTicker()
+  externalStart() {
+    if (!this.header) return
+    this.timeEntryId = this.header.dataset.entryId
+    this.startTime = this.header.dataset.start ? new Date(this.header.dataset.start) : null
+    if (this.header.dataset.taskId && this.hasTaskTarget) {
+      this.taskTarget.value = this.header.dataset.taskId
+    }
+    if (this.startTime) {
+      this.startTicker(this.header.dataset.taskId, false)
+    }
+  }
+
+  externalStop() {
+    this.stopTicker(false)
+    this.timeEntryId = null
+    this.startTime = null
+    if (this.hasCommentTarget) this.commentTarget.value = ''
+    this.updateTimer()
+  }
+
+  startTicker(taskId, broadcast = true) {
+    this.stopTicker(false)
     this.updateTimer()
     this.interval = setInterval(() => this.updateTimer(), 10)
     const timerEl = document.getElementById('timer')
     if (timerEl) timerEl.dataset.start = this.startTime.toISOString()
-    const header = document.getElementById('header-controls')
-    if (header) {
-      header.dataset.start = this.startTime.toISOString()
-      header.dataset.taskId = taskId
-      header.dispatchEvent(new Event('timer-start'))
+    if (broadcast) {
+      const header = document.getElementById('header-controls')
+      if (header) {
+        header.dataset.start = this.startTime.toISOString()
+        header.dataset.taskId = taskId
+        header.dispatchEvent(new Event('timer-start'))
+      }
     }
     this.showStop()
   }
 
-  stopTicker() {
+  stopTicker(broadcast = true) {
     if (this.interval) clearInterval(this.interval)
     const timerEl = document.getElementById('timer')
     if (timerEl) timerEl.dataset.start = ''
-    const header = document.getElementById('header-controls')
-    if (header) {
-      header.dataset.start = ''
-      header.dataset.entryId = ''
-      header.dispatchEvent(new Event('timer-stop'))
+    if (broadcast) {
+      const header = document.getElementById('header-controls')
+      if (header) {
+        header.dataset.start = ''
+        header.dataset.entryId = ''
+        header.dispatchEvent(new Event('timer-stop'))
+      }
     }
     this.showStart()
   }
