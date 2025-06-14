@@ -3,7 +3,5 @@
     <button data-auth-target="loginTab" data-action="auth#showLogin" class="px-3 py-1 rounded <%= 'bg-indigo-600 text-white' if tab != 'signup' %>">Log in</button>
     <button data-auth-target="signupTab" data-action="auth#showSignup" class="px-3 py-1 rounded <%= 'bg-indigo-600 text-white' if tab == 'signup' %>">Sign up</button>
   </div>
-  <turbo-frame id="auth_form" data-auth-target="frame">
-    <%= render(tab == 'signup' ? 'users/form' : 'sessions/form', user: @user) %>
-  </turbo-frame>
+  <%= render 'auth/form', tab: tab, user: @user %>
 </div>
