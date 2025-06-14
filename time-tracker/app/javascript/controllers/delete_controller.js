@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { Turbo } from "@hotwired/turbo-rails"
+import { csrfToken } from "../csrf"
 
 export default class extends Controller {
   static values = { id: Number }
@@ -19,7 +20,7 @@ export default class extends Controller {
       method: "DELETE",
       headers: {
         "Accept": "text/vnd.turbo-stream.html",
-        "X-CSRF-Token": this.token()
+        "X-CSRF-Token": csrfToken()
       }
     })
       .then(response => response.text())
@@ -27,7 +28,4 @@ export default class extends Controller {
       .then(() => this.cancel())
   }
 
-  token() {
-    return document.querySelector('meta[name="csrf-token"]').content
-  }
 }
