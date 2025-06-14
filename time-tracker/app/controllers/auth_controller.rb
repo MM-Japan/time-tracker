@@ -5,11 +5,8 @@ class AuthController < ApplicationController
   end
 
   def form
+    @tab = params[:tab] || 'login'
     @user = User.new
-    if params[:tab] == 'signup'
-      render partial: 'users/form', locals: { user: @user }
-    else
-      render partial: 'sessions/form'
-    end
+    render partial: 'auth/form', locals: { tab: @tab, user: @user }
   end
 end
