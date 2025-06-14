@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { csrfToken } from "../csrf"
+import { showToast } from "../toast"
 
 export default class extends Controller {
   static targets = ["task", "timer", "comment", "startBtn", "stopBtn"]
@@ -82,6 +83,7 @@ export default class extends Controller {
       this.startTime = null
       this.updateTimer()
       this.showStart()
+      showToast("Hours logged")
     })
   }
 
