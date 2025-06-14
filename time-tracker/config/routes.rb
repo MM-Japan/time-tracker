@@ -16,5 +16,5 @@ Rails.application.routes.draw do
 
   get 'calendar(/:date)', to: 'calendar#show', as: :calendar
 
-  root 'auth#new'
+  root 'tasks#index'
 end
