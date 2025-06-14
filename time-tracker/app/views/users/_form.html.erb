@@ -1,0 +1,15 @@
+<%= form_with model: user, url: users_path do |f| %>
+  <div class="mb-4">
+    <%= f.label :email, class: 'block mb-1' %>
+    <%= f.email_field :email, class: 'w-full' %>
+  </div>
+  <div class="mb-4">
+    <%= f.label :password, class: 'block mb-1' %>
+    <%= f.password_field :password, class: 'w-full' %>
+  </div>
+  <div class="mb-4">
+    <%= f.label :password_confirmation, class: 'block mb-1' %>
+    <%= f.password_field :password_confirmation, class: 'w-full' %>
+  </div>
+  <%= f.submit 'Sign up', class: 'w-full bg-blue-600 text-white rounded py-2' %>
+<% end %>
