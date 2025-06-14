@@ -32,7 +32,10 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
-    redirect_to tasks_path, notice: "Task deleted."
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to tasks_path, notice: "Task deleted." }
+    end
   end
 
   private
