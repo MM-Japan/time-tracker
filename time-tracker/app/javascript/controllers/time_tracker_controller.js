@@ -110,7 +110,7 @@ export default class extends Controller {
   startTicker(taskId, broadcast = true) {
     this.stopTicker(false)
     this.updateTimer()
-    this.interval = setInterval(() => this.updateTimer(), 10)
+    this.interval = setInterval(() => this.updateTimer(), 100)
     const timerEl = document.getElementById('timer')
     if (timerEl) timerEl.dataset.start = this.startTime.toISOString()
     if (broadcast) {
@@ -151,15 +151,15 @@ export default class extends Controller {
 
   updateTimer() {
     if (!this.startTime) {
-      this.timerTarget.textContent = "00:00:00.000"
+      this.timerTarget.textContent = "00:00:00.0"
       return
     }
     const diff = Date.now() - this.startTime.getTime()
     const hours = Math.floor(diff / 3600000)
     const minutes = Math.floor((diff % 3600000) / 60000)
     const seconds = Math.floor((diff % 60000) / 1000)
-    const ms = diff % 1000
-    this.timerTarget.textContent = `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}.${String(ms).padStart(3,'0')}`
+    const tenths = Math.floor((diff % 1000) / 100)
+    this.timerTarget.textContent = `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}.${tenths}`
   }
 
   pad(num) {

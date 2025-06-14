@@ -5,7 +5,7 @@ export default class extends Controller {
   // update the timer simply by modifying `data-start` on this element.
 
   connect() {
-    this.interval = setInterval(() => this.update(), 10)
+    this.interval = setInterval(() => this.update(), 100)
     this.update()
   }
 
@@ -17,7 +17,7 @@ export default class extends Controller {
     // `data-start` holds an ISO8601 timestamp when the timer is running
     const startAttr = this.element.dataset.start
     if (!startAttr) {
-      this.element.textContent = "00:00:00.000"
+      this.element.textContent = "00:00:00.0"
       this.element.classList.remove('animate-pulse')
       return
     }
@@ -27,8 +27,8 @@ export default class extends Controller {
     const hours = Math.floor(diff / 3600000)
     const minutes = Math.floor((diff % 3600000) / 60000)
     const seconds = Math.floor((diff % 60000) / 1000)
-    const ms = diff % 1000
-    this.element.textContent = `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}.${ms.toString().padStart(3,'0')}`
+    const tenths = Math.floor((diff % 1000) / 100)
+    this.element.textContent = `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}.${tenths}`
   }
 
   pad(num) {
