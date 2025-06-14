@@ -38,7 +38,8 @@ class TimeEntriesController < ApplicationController
         render :edit
       end
     else
-      @time_entry.update(end_time: Time.current, comment: params[:time_entry][:comment])
+      comment = params.dig(:time_entry, :comment)
+      @time_entry.update(end_time: Time.current, comment: comment)
       respond_to do |format|
         format.html { redirect_to calendar_path(date: Date.current, task_id: @task.id) }
         format.json { head :no_content }
