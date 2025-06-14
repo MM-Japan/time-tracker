@@ -18,8 +18,10 @@ export default class extends Controller {
     const startAttr = this.element.dataset.start
     if (!startAttr) {
       this.element.textContent = "00:00:00.000"
+      this.element.classList.remove('animate-pulse')
       return
     }
+    this.element.classList.add('animate-pulse')
     const start = new Date(startAttr)
     const diff = Date.now() - start.getTime()
     const hours = Math.floor(diff / 3600000)
