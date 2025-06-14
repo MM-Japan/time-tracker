@@ -26,7 +26,11 @@ export default class extends Controller {
   start(event) {
     event.preventDefault()
     const taskId = this.taskTarget.value
-    if (!taskId) return
+    if (!taskId) {
+      const modal = document.getElementById('task-picker')
+      if (modal) modal.classList.remove('hidden')
+      return
+    }
     this.startTime = new Date()
     this.startTicker(taskId)
     this.showStop()

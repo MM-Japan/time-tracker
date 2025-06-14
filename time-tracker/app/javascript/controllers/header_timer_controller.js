@@ -13,7 +13,8 @@ export default class extends Controller {
     event.preventDefault()
     const taskId = this.data.get("taskId")
     if (!taskId) {
-      window.location = "/tasks"
+      const modal = document.getElementById('task-picker')
+      if (modal) modal.classList.remove('hidden')
       return
     }
     fetch(`/tasks/${taskId}/time_entries`, {
