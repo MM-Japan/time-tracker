@@ -19,9 +19,9 @@
       <% @time_entries.each do |entry| %>
         <tr id="time_entry_<%= entry.id %>">
           <td><%= entry.task.name %></td>
-          <td><%= entry.start_time.in_time_zone('Asia/Tokyo').strftime('%A, %B %-d') %></td>
-          <td><%= entry.start_time.in_time_zone('Asia/Tokyo').strftime('%H:%M') %></td>
-          <td><%= entry.end_time&.in_time_zone('Asia/Tokyo')&.strftime('%H:%M') %></td>
+          <td><%= entry.start_time.in_time_zone.strftime('%A, %B %-d') %></td>
+          <td><%= entry.start_time.in_time_zone.strftime('%H:%M') %></td>
+          <td><%= entry.end_time&.in_time_zone&.strftime('%H:%M') %></td>
           <td><%= Time.at(entry.duration).utc.strftime('%H:%M:%S') %></td>
           <td><%= entry.comment %></td>
           <td>

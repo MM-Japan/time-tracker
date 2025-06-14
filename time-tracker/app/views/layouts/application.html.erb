@@ -23,6 +23,7 @@
         <nav class="sm:ml-auto mt-2 sm:mt-0">
           <%= link_to 'Work Hours', calendar_path %> |
           <%= link_to 'Tasks', tasks_path %> |
+          <%= link_to 'Profile', edit_user_path(current_user) %> |
           <%= link_to 'Logout', session_path, data: { turbo_method: :delete } %>
         </nav>
       <% end %>

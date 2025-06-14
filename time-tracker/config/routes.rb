@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resource :session, only: %i[create destroy]
-  resources :users, only: %i[create]
+  resources :users, only: %i[create edit update]
 
   get 'session/new', to: 'auth#new', defaults: { tab: 'login' }, as: :new_session
   get 'users/new', to: 'auth#new', defaults: { tab: 'signup' }, as: :new_user

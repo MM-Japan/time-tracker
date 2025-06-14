@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user, :current_running_entry
+  around_action :use_time_zone
 
   private
 
@@ -13,5 +14,10 @@ class ApplicationController < ActionController::Base
 
   def require_login
     redirect_to new_session_path unless current_user
+  end
+
+  def use_time_zone(&block)
+    zone = current_user&.time_zone || 'UTC'
+    Time.use_zone(zone, &block)
   end
 end
