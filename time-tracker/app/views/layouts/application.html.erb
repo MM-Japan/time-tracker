@@ -9,6 +9,15 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-8e3bGLvYJ+jYw2HVpDz3GpHPuZ7wJkw7DnqKZ59K1trENcGukdxbYlR5c+3F4iAfDdc/K1Ji/7luWUvKBC6zfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (!(HTMLScriptElement.supports && HTMLScriptElement.supports('importmap'))) {
+        var shim = document.createElement('script');
+        shim.async = true;
+        shim.src = 'https://ga.jspm.io/npm:es-module-shims@1.8.2/dist/es-module-shims.js';
+        shim.dataset.turboTrack = 'reload';
+        document.head.appendChild(shim);
+      }
+    </script>
     <%= javascript_importmap_tags %>
   </head>
 
